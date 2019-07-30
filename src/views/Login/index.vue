@@ -1,7 +1,9 @@
+
 <template>
 <div class="login-wrap">
 <!-- <input v-validate="'required|phone'" name="phone" type="text">
 <span>{{ errors.first('phone') }}</span> -->
+<!-- 导航 -->
   <van-nav-bar title="首页" />
   <form action="/" method="POST">
     <van-cell-group>
