@@ -53,7 +53,10 @@ export default {
         this.$store.comit('setUser', data)
         this.loginLoading = false
 
-        // })
+        // 进入tabbar组件
+        this.$router.push({
+          path: '/'
+        })
       } catch (error) {
         this.loginLoading = false
         console.log(error)
