@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { getChannelsUserOrDefault } from '@/api/channel.js'
+
 export default {
   name: 'HomeIndex',
   data () {
@@ -31,16 +33,28 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      isLoading: false
+      isLoading: false,
+      channel: []
     }
   },
+  created () {
+    this.loadChannels()
+  },
   methods: {
+    async loadChannels () {
+      try {
+        const data = await getChannelsUserOrDefault()
+        this.channels = data.channels
+      } catch (error) {
+        console.dir(error)
+      }
+    },
     // 下拉刷新的方法
     onRefresh () {
       setTimeout(() => {
         this.$toast('刷新成功')
         this.isLoading = false
-      }, 500)
+      }, 800)
     },
     onLoad () {
       // 异步更新数据
