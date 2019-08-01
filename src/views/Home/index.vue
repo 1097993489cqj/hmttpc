@@ -7,7 +7,10 @@
   2.list列表:加载更多+下拉刷新
   -->
   <van-tabs class="channel-tabs" v-model="activeChannelIndex">
-      <van-tab title="推荐">
+      <van-tab :title="item.name"
+      v-for="item in channels"
+      :key="item.id"
+      >
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
 <!-- 列表 van-list -->
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -16,7 +19,6 @@
 
         </van-pull-refresh>
       </van-tab>
-       <van-tab title="推荐"></van-tab>
 
     </van-tabs>
   </div>
@@ -24,7 +26,7 @@
 
 <script>
 import { getChannelsUserOrDefault } from '@/api/channel.js'
-
+import { mapState } from 'vuex'
 export default {
   name: 'HomeIndex',
   data () {
@@ -34,17 +36,28 @@ export default {
       loading: false,
       finished: false,
       isLoading: false,
-      channel: []
+      channels: []
     }
   },
   created () {
     this.loadChannels()
   },
+  computed: {
+    ...mapState(['user'])
+  },
   methods: {
     async loadChannels () {
+      // 取出本地数据
+      const lsChannels = JSON.parse(window.localStorage.getItem('channels'))
+
       try {
-        const data = await getChannelsUserOrDefault()
-        this.channels = data.channels
+        if (this.user || (!this.user && !lsChannels)) {
+          const data = await getChannelsUserOrDefault()
+          this.channels = data.channels
+        }
+        if (!this.user && lsChannels) {
+          this.channels = lsChannels
+        }
       } catch (error) {
         console.dir(error)
       }

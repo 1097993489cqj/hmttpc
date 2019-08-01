@@ -4,16 +4,9 @@
  */
 import request from '@/utils/request.js'
 
-export const getChannelsUserOrDefault = ({
-  mobile,
-  code
-}) => {
+export const getChannelsUserOrDefault = () => {
   return request({
     method: 'get',
-    url: `/app/v1_0/user/channels`,
-    data: {
-      mobile,
-      code
-    }
+    url: `/app/v1_0/user/channels`
   })
 }
