@@ -29,13 +29,6 @@ export default new Router({
       component: () =>
       import('@/views/Login')
     }
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   // 路由的 -> 组件懒加载
-    //   component: () =>
-    //         import('@/views/home')
-    // }
 
   ]
 })

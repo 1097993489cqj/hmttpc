@@ -2,19 +2,38 @@
 // 如"basuURL请求拦截器 相应拦截器
 
 import axios from 'axios'
-
+import store from '@/store.js'
 // 配置baseURL并且返回axios
 const request = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn'
 })
 // 请求拦截器
-request.interceptors.request.use(function (config) {
-  return config
-}, function (error) {
-  return Promise.reject(error)
-})
+request.interceptors.request.use(
+  function (config) {
+    // console.log(config.url);
+    const { user } = store.state;
+    // console.log(user)
 
-// 相应拦截器
+    // 利用逻辑运算简化if嵌套
+    ((config !== '/app/v1_0/authorizations') && user) &&
+    (config.headers.Authorization = `Bearer ${user.token}`)
+
+    // 如果是非登录请求->
+
+    // if (config !== '/app/v1_0/authorizations') {
+    //   // 如果用户登录了->token
+    //   if (user) {
+    //     // 设置请求头
+    //     config.headers.Authorization = `Bearer ${user.token}`
+    //   }
+    // }
+    // 用户登录了->token
+    return config
+  }, function (error) {
+    return Promise.reject(error)
+  })
+
+// 响应拦截器
 // res->{message,;code:,data:{}}------>res.data
 request.interceptors.response.use(function (response) {
   // 如果响应结果对象中有 data，则直接返回这个 data 数据

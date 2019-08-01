@@ -14,7 +14,7 @@
     </van-cell-group>
     <van-button
     :loading="loginLoading"
-    type="info" block @click="handleLogin">登录</van-button>
+    type="info" block @click.prevent="handleLogin">登录</van-button>
   </form>
 </div>
 </template>
@@ -52,9 +52,8 @@ export default {
         // 验证通过
         const data = await login(this.user)
         // console.log(data)
-        this.$store.comit('setUser', data)
+        this.$store.commit('setUser', data)
         this.loginLoading = false
-
         // 进入tabbar组件
         this.$router.push({
           path: '/'
@@ -71,6 +70,3 @@ export default {
 <style>
 
 </style>
-
-// token
-// 1.保存token->localStorage
