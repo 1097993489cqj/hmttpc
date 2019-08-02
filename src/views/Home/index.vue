@@ -86,7 +86,8 @@ export default {
       // 更新加载的动画
       this.activeChannel.upPullLoading = true
       // 更新文章列表
-      this.loadArticles()
+      // this.loadArticles()
+      this.onLoad()
     }
   },
   computed: {
@@ -143,6 +144,7 @@ export default {
       return data
     },
     async onLoad () {
+      console.log('----')
       // 延迟执行是一个独立作用的函数-> 多次使用
       // 1.函数
       // 2.模块.js

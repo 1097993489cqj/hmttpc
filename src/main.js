@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Vant from 'vant'
+import VueLazyload from 'vue-lazyload'
 import 'vant/lib/index.css'
 import 'amfe-flexible/index.min.js'
 import './styles/index.less'
@@ -13,6 +14,7 @@ import zhCN from 'vee-validate/dist/locale/zh_CN'
 
 Vue.use(Vant)
 Vue.use(VeeValidate)
+Vue.use(VueLazyload)
 Validator.localize('zh_CN', zhCN)
 
 // 自定义验证规则
