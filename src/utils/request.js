@@ -11,11 +11,11 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config) {
     // console.log(config.url);
-    const { user } = store.state;
+    const { user } = store.state
     // console.log(user)
 
     // 利用逻辑运算简化if嵌套
-    ((config !== '/app/v1_0/authorizations') && user) &&
+    config.url !== '/app/v1_0/authorizations' && user &&
     (config.headers.Authorization = `Bearer ${user.token}`)
 
     // 如果是非登录请求->
