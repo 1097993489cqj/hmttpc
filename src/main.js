@@ -25,6 +25,21 @@ Validator.extend('phone', {
     value.length === 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/.test(value)
 })
 
+// 睡眠
+// 看到异步->
+// 1 cd ->回调地狱 -> 层层嵌套
+// 2.Promise ->缺点
+//  2.1: 一个promise 对应一个异步
+//  2.2 .them().cath()
+// 3.async await
+Vue.prototype.$sleep = (time) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
+
 Vue.config.productionTip = false
 
 new Vue({

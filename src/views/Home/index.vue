@@ -119,9 +119,16 @@ export default {
       return data
     },
     async onLoad () {
+      // 延迟执行是一个独立作用的函数-> 多次使用
+      // 1.函数
+      // 2.模块.js
+      // 3.挂在vue的实例上 -> this.$sleep()
+      await this.$sleep(500)
+      //
       let data = []
       data = await this.loadArticles()
 
+      // 第一次发送请求
       if (data.pre_timestamp && data.results.length === 0) {
         // 更新timestamp时间戳
         this.activeChannel.timestamp = data.pre_timestamp
