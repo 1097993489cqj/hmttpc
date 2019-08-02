@@ -5,6 +5,9 @@
     <p>{{this.$store.state.count}}</p>
     <hr>
     <p>{{count}}</p> -->
+    <keep-alive>
+
+    </keep-alive>
     <router-view></router-view>
 
   </div>

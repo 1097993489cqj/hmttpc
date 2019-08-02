@@ -65,6 +65,30 @@ export default {
   created () {
     this.loadChannels()
   },
+  // 监测store.state.user
+  watch: {
+    // data(newValue, oldValue){
+
+    // }
+    // list: (newV, oldV)=>{
+
+    // }
+    // 'list':()=>{}
+    // 凡是可以使用this.出来的数据,都可以使用watch监测
+    // this.$stor.state.user
+    // '$store.state.user' () {
+
+    // }
+    user (newV, oldV) {
+      console.log('--------')
+      // 更新频道列表
+      this.loadChannels()
+      // 更新加载的动画
+      this.activeChannel.upPullLoading = true
+      // 更新文章列表
+      this.loadArticles()
+    }
+  },
   computed: {
     ...mapState(['user']),
     activeChannel () {
