@@ -31,7 +31,7 @@
                   <!-- <span>时间:{{item.pubdate | relTime}}</span> -->
                   <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp; &nbsp;
-                  <van-icon class="close" name="cross" @click="showMoreActionDia()"></van-icon>
+                  <van-icon class="close" name="cross" @click="showMorActionDia()"></van-icon>
                 </p>
               </template>
             </van-cell>
@@ -41,6 +41,9 @@
       </van-tab>
 
     </van-tabs>
+
+    <!-- 更多操作 -->
+    <more-action v-model="isShowDiaMore"></more-action>
   </div>
 </template>
 
@@ -48,8 +51,12 @@
 import { getChannelsUserOrDefault } from '@/api/channel.js'
 import { getArticles } from '@/api/article.js'
 import { mapState } from 'vuex'
+import MoreAction from './components/more-action.vue'
 export default {
   name: 'HomeIndex',
+  components: {
+    MoreAction
+  },
   data () {
     return {
       activeChannelIndex: 0,
@@ -96,6 +103,10 @@ export default {
     }
   },
   methods: {
+    // 点击->打开对话框
+    showMorActionDia () {
+      this.isShowDiaMore = true
+    },
     async loadChannels () {
       // 取出本地数据
       const lsChannels = JSON.parse(window.localStorage.getItem('channels'))
