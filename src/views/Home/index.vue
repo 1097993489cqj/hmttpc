@@ -14,7 +14,6 @@
         <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
 <!-- 列表 van-list -->
 <!--
-
  -->
            <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
             <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title">
@@ -30,7 +29,7 @@
                   <span>评论 :{{item.comm_count}}</span>
                   &nbsp;
                   <!-- <span>时间:{{item.pubdate | relTime}}</span> -->
-                  <span>时间:{{item.pubdate}}</span>
+                  <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp; &nbsp;
                   <van-icon class="close" name="cross" @click="showMoreActionDia()"></van-icon>
                 </p>
@@ -131,11 +130,11 @@ export default {
 
     // 获取文章列表数据
     async loadArticles () {
-      const { id: channel_id, timestamp } = this.activeChannel
+      const { id, timestamp } = this.activeChannel
 
       const data = await getArticles({
         // 当前激活的频道的id<-当前激活的频道<-activeChannel
-        channel_id,
+        channel_id: id,
         // timestamp: Date.now(),
         // timestamp,
         timestamp,
