@@ -1,22 +1,28 @@
 <template>
-    <div>
-      <!-- 导航 -->
-  <van-nav-bar title="首页|搜索" fixed/>
-  <!-- 内容区域
+  <div>
+    <!-- 导航 -->
+    <van-nav-bar title="首页|搜索" fixed />
+    <!-- 内容区域
   1.tabs切换
   2.list列表:加载更多+下拉刷新
-  -->
-  <van-tabs class="channel-tabs" v-model="activeChannelIndex">
-      <van-tab :title="item.name"
-      v-for="item in channels"
-      :key="item.id"
-      >
+    -->
+    <van-tabs class="channel-tabs" v-model="activeChannelIndex">
+      <van-tab :title="item.name" v-for="item in channels" :key="item.id">
         <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
-<!-- 列表 van-list -->
-<!--
- -->
-           <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title">
+          <!-- 列表 van-list -->
+          <!--
+          -->
+          <van-list
+            v-model="item.upPullLoading"
+            :finished="item.upPullFinished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <van-cell
+              v-for="item in item.articles"
+              :key="item.art_id.toString()"
+              :title="item.title"
+            >
               <template slot="label">
                 <van-grid v-show="item.cover.type!==0" :border="false" :column-num="3">
                   <van-grid-item v-for="src in item.cover.images" :key="src">
@@ -31,19 +37,17 @@
                   <!-- <span>时间:{{item.pubdate | relTime}}</span> -->
                   <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp; &nbsp;
-                  <van-icon class="close" name="cross" @click="showMorActionDia()"></van-icon>
+                  <van-icon class="close" name="cross" @click="showMorActionDia(item)"></van-icon>
                 </p>
               </template>
             </van-cell>
           </van-list>
-
         </van-pull-refresh>
       </van-tab>
-
     </van-tabs>
 
     <!-- 更多操作 -->
-    <more-action v-model="isShowDiaMore"></more-action>
+    <more-action v-model="isShowDiaMore" :currentArticle="currentArticle"></more-action>
   </div>
 </template>
 
@@ -65,7 +69,8 @@ export default {
       finished: false,
       isLoading: false,
       channels: [], // [{id:0},{id:1}]
-      isShowDiaMore: false
+      isShowDiaMore: false,
+      currentArticle: null
     }
   },
   created () {
@@ -104,7 +109,9 @@ export default {
   },
   methods: {
     // 点击->打开对话框
-    showMorActionDia () {
+    showMorActionDia (currentArticle) {
+      //
+      this.currentArticle = currentArticle
       this.isShowDiaMore = true
     },
     async loadChannels () {

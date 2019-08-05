@@ -1,12 +1,18 @@
 <template>
-    <van-dialog :value="value" closeOnClickOverlay @input="$emit('input')" :showConfirmButton="false" :show-confirm-button="false">
+  <van-dialog
+    :value="value"
+    closeOnClickOverlay
+    @input="$emit('input')"
+    :showConfirmButton="false"
+    :show-confirm-button="false"
+  >
     <van-cell-group v-if="!isReport">
-      <van-cell icon="location-o" title="不感兴趣" />
-      <van-cell icon="location-o" title="反馈垃圾内容" is-link @click="isReport=true"/>
+      <van-cell icon="location-o" title="不感兴趣" @click="handleDislikeArticle()" />
+      <van-cell icon="location-o" title="反馈垃圾内容" is-link @click="isReport=true" />
       <van-cell icon="location-o" title="拉黑作者" />
     </van-cell-group>
     <van-cell-group v-else>
-        <!-- 左按钮控制返回上一组结构 -->
+      <!-- 左按钮控制返回上一组结构 -->
       <van-cell icon="arrow-left" @click="isReport=false" />
       <van-cell title="侵权" icon="location-o" />
       <van-cell title="色情" icon="location-o" />
@@ -20,9 +26,10 @@
 </template>
 
 <script>
+import { dislikeArticle } from '@/api/article.js'
+
 export default {
   name: 'MoreAction',
-  //   props:['']
   data () {
     return {
       isReport: false
@@ -32,11 +39,27 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    currentArticle: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    async handleDislikeArticle () {
+    //   console.log(this.currentArticle)
+      const { art_id: article_ID } = this.currentArticle
+      //   console.log(article_ID)
+      try {
+        const data = await dislikeArticle(article_ID)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
 </script>
 
 <style lang='less' scoped>
-
 </style>
