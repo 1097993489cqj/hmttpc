@@ -162,11 +162,28 @@ export default {
       }
     },
     // 下拉刷新的方法
-    onRefresh () {
-      await this
-
-
-
+    async onRefresh () {
+      await this.$sleep(800)
+      // 更新为最新时间戳
+      this.activeChannel.timestamp = Date.now()
+      // 获取最新数据
+      const data = await this.loadArticles()
+      console.log(data)
+      // 有最新数据
+      if (data.results.length) {
+        // 重置数据
+        this.activeChannel.articles = data.results // data.results=>10条
+        // 重置时间戳
+        this.activeChannel.timestamp = data.pre_timestamp
+        // 手动调用加载调用onLoad方法->保证数据是满屏的
+        this.onLoad()
+        // 提示-> 更新完毕
+        this.refreshSuccessText = '更新完毕'
+      }
+      // 无最新数据
+      this.refreshSuccessText = '无最新数据'
+      // 停止动画
+      this.activeChannel.downPullLoading = false
       // setTimeout(() => {
       //   this.$toast('刷新成功')
       //   this.isLoading = false
