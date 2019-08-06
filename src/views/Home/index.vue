@@ -47,7 +47,9 @@
     </van-tabs>
 
     <!-- 更多操作 -->
-    <more-action v-model="isShowDiaMore" :currentArticle="currentArticle"></more-action>
+    <more-action
+    @dislike-success="handleDislikeSuccess"
+     v-model="isShowDiaMore" :currentArticle="currentArticle"></more-action>
   </div>
 </template>
 
@@ -108,6 +110,27 @@ export default {
     }
   },
   methods: {
+    handleDislikeSuccess () {
+      const currentArticle = this.currentArticle
+      // 应该发送delete删除文章请求->res->修改数据
+      // 假删除->
+
+      // findIndex
+      // 1.这是数组的实例方法
+      // 2.能遍历
+      // 3.传cb
+      // 4.cb的形参代表每个元素
+      // 5.return 条件
+      // 6.findIndex会把符合return条件的元素的索引
+      // const arr = [1, 2, 3, 4, 5].findIndex((item) => {
+      //   return item > 2
+      // })
+
+      const index = this.activeChannel.articles.findIndex(item => {
+        return item === this.currentArticle
+      })
+      this.activeChannel.articles.splice(index, 1)
+    },
     // 点击->打开对话框
     showMorActionDia (currentArticle) {
       //
@@ -140,10 +163,14 @@ export default {
     },
     // 下拉刷新的方法
     onRefresh () {
-      setTimeout(() => {
-        this.$toast('刷新成功')
-        this.isLoading = false
-      }, 800)
+      await this
+
+
+
+      // setTimeout(() => {
+      //   this.$toast('刷新成功')
+      //   this.isLoading = false
+      // }, 800)
     },
 
     // 获取文章列表数据

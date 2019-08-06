@@ -19,3 +19,16 @@ export const login = ({
     }
   })
 }
+
+/**
+ * 拉黑用户
+ */
+export const blacklistAuthor = (target) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/user/blacklists',
+    data: {
+      target
+    }
+  })
+}
